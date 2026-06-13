@@ -1,9 +1,3 @@
-"""
-HASH GENERATOR - Live Demo
-See how hashes work in real-time
-No installations needed!
-"""
-
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
 import hashlib
@@ -28,39 +22,31 @@ class HashGeneratorLive:
         self.setup_ui()
         
     def setup_ui(self):
-        # Title
+   
         title = tk.Label(self.root, text="🔐 Hash Generator - Digital Fingerprint Tool", 
                         font=("Arial", 16, "bold"),
                         bg=self.colors['bg'], fg=self.colors['accent'])
         title.pack(pady=10)
-        
-        # Create notebook for tabs
+    
         notebook = ttk.Notebook(self.root)
         notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        
-        # Tab 1: Text Hash (Interactive)
+
         self.text_frame = tk.Frame(notebook, bg=self.colors['bg'])
         notebook.add(self.text_frame, text="📝 Text Hash (Live)")
         self.setup_text_tab()
-        
-        # Tab 2: File Hash
+
         self.file_frame = tk.Frame(notebook, bg=self.colors['bg'])
         notebook.add(self.file_frame, text="📁 File Hash")
         self.setup_file_tab()
-        
-        # Tab 3: Password Hash Demo
+
         self.password_frame = tk.Frame(notebook, bg=self.colors['bg'])
         notebook.add(self.password_frame, text="🔑 Password Hashing Demo")
         self.setup_password_tab()
         
-        # Tab 4: Educational
-        self.education_frame = tk.Frame(notebook, bg=self.colors['bg'])
-        notebook.add(self.education_frame, text="📖 Learn About Hashing")
-        self.setup_education_tab()
         
     def setup_text_tab(self):
         """Interactive text hashing with live updates"""
-        # Input section
+
         input_frame = tk.Frame(self.text_frame, bg=self.colors['bg'])
         input_frame.pack(fill=tk.X, padx=10, pady=10)
         
@@ -74,7 +60,7 @@ class HashGeneratorLive:
         self.text_input.pack(fill=tk.X, pady=5)
         self.text_input.bind('<KeyRelease>', self.update_hashes_live)
         
-        # Example buttons
+
         example_frame = tk.Frame(self.text_frame, bg=self.colors['bg'])
         example_frame.pack(fill=tk.X, padx=10, pady=5)
         
@@ -90,7 +76,7 @@ class HashGeneratorLive:
                  command=lambda: self.set_example("Hello World"),
                  bg='#3c3c3c', fg=self.colors['fg']).pack(side=tk.LEFT, padx=2)
         
-        # Hash results frame
+
         results_frame = tk.LabelFrame(self.text_frame, text="Hash Results (Digital Fingerprints)", 
                                       bg=self.colors['bg'], fg=self.colors['accent'],
                                       font=("Arial", 10, "bold"))
@@ -211,119 +197,7 @@ class HashGeneratorLive:
                                      fg=self.colors['success'], font=("Consolas", 9))
         self.password_hash.pack(fill=tk.X, pady=5)
         
-        # Explanation
-        explanation = """
-        🔐 SECURITY EXPLANATION:
-        
-        When you create an account on a website:
-        1. You enter your password: "MySecret123"
-        2. Website hashes it: "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
-        3. Website stores ONLY the hash (not your actual password)
-        
-        When you login later:
-        1. You enter "MySecret123"
-        2. Website hashes what you typed
-        3. Website compares it to stored hash
-        4. If they match → correct password!
-        
-        ✅ Even if hackers steal the database, they only see hashes, not real passwords
-        ❌ Hackers can't reverse the hash to get "MySecret123"
-        """
-        
-        explanation_text = tk.Text(demo_frame, height=15, bg='#2d2d2d', 
-                                   fg=self.colors['fg'], wrap=tk.WORD)
-        explanation_text.pack(fill=tk.BOTH, expand=True, pady=10)
-        explanation_text.insert(1.0, explanation)
-        explanation_text.config(state=tk.DISABLED)
-        
-    def setup_education_tab(self):
-        """Educational content about hashing"""
-        edu_text = scrolledtext.ScrolledText(self.education_frame, 
-                                             bg='#2d2d2d', fg=self.colors['fg'],
-                                             font=("Arial", 10), wrap=tk.WORD)
-        edu_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        
-        content = """
-        📚 WHAT IS CRYPTOGRAPHIC HASHING?
-        
-        A hash function is a mathematical algorithm that converts any data into a fixed-length string of characters.
-        
-        🔑 KEY PROPERTIES:
-        
-        1. DETERMINISTIC: Same input = same hash every time
-        2. FAST: Can hash any size data quickly
-        3. ONE-WAY: Cannot reverse a hash to get original data
-        4. AVALANCHE EFFECT: Small change = completely different hash
-        5. COLLISION-RESISTANT: Different inputs should never produce same hash
-        
-        🎯 REAL-WORLD USES:
-        
-        1. PASSWORD STORAGE
-           • Websites never store your actual password
-           • They store the hash
-           • When you login, they hash your entry and compare
-        
-        2. FILE INTEGRITY CHECKING
-           • Download a file from the internet
-           • Website shows hash (e.g., "SHA256: abc123...")
-           • You hash your downloaded file
-           • If hashes match → file wasn't corrupted or tampered with
-        
-        3. DIGITAL SIGNATURES
-           • Hash the document (creates fingerprint)
-           • Encrypt just the small hash (faster than encrypting whole document)
-           • Others can verify the signature
-        
-        4. VIRUS DETECTION
-           • Antivirus keeps database of known virus hashes
-           • Scans files and compares hashes
-           • Match = known virus
-        
-        5. DATA DEDUPLICATION
-           • Cloud storage uses hashes to find duplicate files
-           • Store only one copy, reference it multiple times
-        
-        📊 HASH COMPARISON:
-        
-        | Algorithm | Output Size | Speed | Security |
-        |-----------|-------------|-------|----------|
-        | MD5       | 32 chars    | Fast  | Broken (don't use) |
-        | SHA1      | 40 chars    | Fast  | Weak (avoid) |
-        | SHA256    | 64 chars    | Good  | Strong (recommended) |
-        | SHA512    | 128 chars   | Good  | Strongest |
-        
-        ⚠️ COMMON ATTACKS ON HASHES:
-        
-        1. RAINBOW TABLES: Precomputed hash lookup tables
-           • Defense: Use SALT (random data added before hashing)
-        
-        2. BRUTE FORCE: Try every possible input
-           • Defense: Use strong passwords (high entropy)
-        
-        3. COLLISION ATTACKS: Find two inputs with same hash
-           • Defense: Use SHA256 or SHA512
-        
-        💡 FUN DEMO TO TRY:
-        
-        1. Go to the "Text Hash" tab
-        2. Type "Hello World"
-        3. Change one letter to lowercase ("hello World")
-        4. Watch how the hash COMPLETELY changes!
-        
-        🔬 EXPERIMENT:
-        
-        Try hashing:
-        • A single letter: "A"
-        • A word: "Password"
-        • A sentence: "The quick brown fox jumps over the lazy dog"
-        • An empty string: ""
-        
-        Notice how every hash is the same length regardless of input size!
-        """
-        
-        edu_text.insert(1.0, content)
-        edu_text.config(state=tk.DISABLED)
-        
+       
     def set_example(self, text):
         """Set example text"""
         self.text_input.delete(1.0, tk.END)
